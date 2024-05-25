@@ -7,8 +7,7 @@ import {
   SunflowerStock,
   NoneStock,
   ItemStock,
-} from "../models/itemStock.js";
-import { log } from "console";
+} from "../models/ItemStock.js";
 
 /**
  * @param req

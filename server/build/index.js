@@ -6,6 +6,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import AuthRoutes from "./routes/auth.js";
+import VillageRoutes from "./routes/village.js";
 dotenv.config({ path: "./.env" });
 const app = express();
 /* CONSTANTS */
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({
 }));
 /* ROUTES */
 app.use("/user", AuthRoutes);
+app.use("/village", VillageRoutes);
 /* START FUNCTION */
 async function start() {
     try {

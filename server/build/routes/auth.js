@@ -1,8 +1,9 @@
 import express from "express";
-import { loginUser, registerUser } from "../controllers/AuthControllers.ts";
+import { authUser, loginUser, registerUser } from "../controllers/AuthControllers.js";
+import checkAuth from "../utils/checkAuth.js";
 const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-// router.get("/me", authUser);
+router.get("/me", checkAuth, authUser);
 export default router;
 //# sourceMappingURL=auth.js.map

@@ -4,6 +4,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 dotenv.config();
 const SECRET = process.env.SECRET;
+/**
+ * @param req
+ * @param res
+ * @access public
+ * @copyright Copyright (c) 2024 The ISC License
+ * @description Register user
+ **/
 export const registerUser = async (req, res) => {
     try {
         const findUser = await User.findOne({ email: req.params.email });
@@ -37,6 +44,13 @@ export const registerUser = async (req, res) => {
         });
     }
 };
+/**
+ * @param req
+ * @param res
+ * @access public
+ * @copyright Copyright (c) 2024 The ISC License
+ * @description Login user
+ **/
 export const loginUser = async (req, res) => {
     try {
         const user = await User.findOne({ login: req.body.login });
@@ -60,17 +74,27 @@ export const loginUser = async (req, res) => {
     catch (err) {
         console.log(err);
         res.status(500).json({
-            message: "Не удалось зарегестрироваться",
+            message: "Не удалось авторизоваться",
         });
     }
 };
-// export const authUser = async (req, res) => {
-//   try {
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({
-//       message: "Не удалось зарегестрироваться",
-//     });
-//   }
-// };
+export const authUser = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.userId });
+        if (!user) {
+            res.status(404).json({
+                message: "Пользователь не найден!",
+            });
+            return;
+        }
+        const { password, ...userData } = user.toObject();
+        res.json(userData);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Не удалось войти",
+        });
+    }
+};
 //# sourceMappingURL=AuthControllers.js.map
