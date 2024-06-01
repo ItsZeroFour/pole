@@ -14,7 +14,7 @@ const SECRET = process.env.SECRET;
 export const registerUser = async (req, res) => {
     try {
         const findUser = await User.findOne({ email: req.params.email });
-        if (findUser) {
+        if (!findUser) {
             res.status(400).json({
                 message: "Такой пользователь уже зарегестрирован",
             });
