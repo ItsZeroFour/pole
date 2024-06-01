@@ -58,8 +58,7 @@ const Stocks = ({ currentVillageId }) => {
             .reduce((sum, { count }) => sum + count, 0);
 
           return (
-            <li
-              key={_id}
+            <Link
               style={{
                 background:
                   name === "Обработка"
@@ -68,73 +67,70 @@ const Stocks = ({ currentVillageId }) => {
                     ? "#FEE2A2"
                     : "#d9d9d9",
               }}
+              to={`/stockItems/${_id}`}
             >
-              <Link to={`/stockItems/${_id}`}>
-                <h4>{name}</h4>
+              <h4>{name}</h4>
 
-                <ul>
-                  {name !== "Обработка" ? (
-                    <React.Fragment>
-                      <li>
-                        <h4>Пшеница:</h4>
-                        <h4>{wheatTotal === 0 ? "-" : `${wheatTotal} т.`}</h4>
-                      </li>
+              <ul>
+                {name !== "Обработка" ? (
+                  <React.Fragment>
+                    <li>
+                      <h4>Пшеница:</h4>
+                      <h4>{wheatTotal <= 0 ? "-" : `${wheatTotal} т.`}</h4>
+                    </li>
 
-                      {name !== "Сушка" && (
-                        <React.Fragment>
-                          <li>
-                            <h4>Горох: </h4>
-                            <h4>{peasTotal === 0 ? "-" : `${peasTotal} т.`}</h4>
-                          </li>
+                    {name !== "Сушка" && (
+                      <React.Fragment>
+                        <li>
+                          <h4>Горох: </h4>
+                          <h4>{peasTotal <= 0 ? "-" : `${peasTotal} т.`}</h4>
+                        </li>
 
-                          <li>
-                            <h4>Подсолнечник: </h4>
+                        <li>
+                          <h4>Подсолнечник: </h4>
 
-                            <h4>
-                              {sunflowerTotal === 0
-                                ? "-"
-                                : `${sunflowerTotal} т.`}
-                            </h4>
-                          </li>
-                        </React.Fragment>
-                      )}
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      {allIds.map((id) => {
-                        const item = items.find((item) => item.id === id);
+                          <h4>
+                            {sunflowerTotal <= 0 ? "-" : `${sunflowerTotal} т.`}
+                          </h4>
+                        </li>
+                      </React.Fragment>
+                    )}
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    {allIds.map((id) => {
+                      const item = items.find((item) => item.id === id);
 
-                        if (!item) {
-                          return (
-                            <li key={id}>
-                              <h4>--</h4>
-                              <h4>-</h4>
-                            </li>
-                          );
-                        }
-
-                        const { itemType, count } = item;
-
+                      if (!item) {
                         return (
                           <li key={id}>
-                            <h4>
-                              {itemType.toLowerCase() === "wheat"
-                                ? "Пшеница"
-                                : itemType.toLowerCase() === "peas"
-                                ? "Горох"
-                                : itemType.toLowerCase() === "sunflower"
-                                ? "Подсолнечник"
-                                : "--"}
-                            </h4>
-                            <h4>{count} т.</h4>
+                            <h4>--</h4>
+                            <h4>-</h4>
                           </li>
                         );
-                      })}
-                    </React.Fragment>
-                  )}
-                </ul>
-              </Link>
-            </li>
+                      }
+
+                      const { itemType, count } = item;
+
+                      return (
+                        <li key={id}>
+                          <h4>
+                            {itemType.toLowerCase() === "wheat"
+                              ? "Пшеница"
+                              : itemType.toLowerCase() === "peas"
+                              ? "Горох"
+                              : itemType.toLowerCase() === "sunflower"
+                              ? "Подсолнечник"
+                              : "--"}
+                          </h4>
+                          <h4>{count <= 0 ? "-" : count} т.</h4>
+                        </li>
+                      );
+                    })}
+                  </React.Fragment>
+                )}
+              </ul>
+            </Link>
           );
         })}
     </ul>

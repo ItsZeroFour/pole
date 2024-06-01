@@ -14,17 +14,10 @@ const app = express();
 /* CONSTANTS */
 const PORT = process.env.PORT || 5000;
 const MONGO_URI: string = process.env.MONGO_URI as string;
-const corsOptions = {
-  origin: 'http://ruspole.uer-ural.ru', // Замените на домен вашего React-приложения
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Разрешить отправку куки и авторизационных данных
-};
 
 /* MIDDLEWARES */
 app.use(express.json({ limit: "50mb" }));
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(cors());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
@@ -36,14 +29,6 @@ app.use(
     parameterLimit: 1000000,
   })
 );
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://ruspole.uer-ural.ru');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
 
 /* ROUTES */
 app.use("/user", AuthRoutes);

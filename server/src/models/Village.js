@@ -12,6 +12,13 @@ const villageSchema = new mongoose.Schema({
       ref: "Stock",
     },
   ],
+
+  shipment: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "shipment",
+    },
+  ],
 });
 
 export default mongoose.model("Village", villageSchema);

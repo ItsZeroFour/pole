@@ -44,7 +44,7 @@ const Production = () => {
                 ))}
 
                 <li>
-                  <Link to="/">История отгрузок</Link>
+                  <Link to="/shipment/history">История отгрузок</Link>
                 </li>
               </ul>
 

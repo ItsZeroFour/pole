@@ -9,21 +9,18 @@ export const fetchCreateStockItem = createAsyncThunk(
   }
 );
 
-export const fetchUpdateStockItem = createAsyncThunk(
-  "/stockItem/updateStockItem",
-  async ({ id, itemId, params }) => {
-    const { data } = await axios.post(
-      `/village/updateStockItem/${id}/${itemId}`,
-      params
-    );
-    return data;
-  }
-);
-
 export const fetchGetStockItems = createAsyncThunk(
   "/stockItem/getStockItems",
   async (ids) => {
     const { data } = await axios.post(`/village/getStockItems`, { ids });
+    return data;
+  }
+);
+
+export const fetchGetStockItem = createAsyncThunk(
+  "/stockItem/getStockItem",
+  async (id) => {
+    const { data } = await axios.get(`/village/getStockItem/${id}`);
     return data;
   }
 );
@@ -53,21 +50,7 @@ const stockItemsSlice = createSlice({
         state.data = null;
       })
 
-      /* UPDATE STOCK ITEM */
-      .addCase(fetchUpdateStockItem.pending, (state) => {
-        state.status = "loading";
-        state.data = null;
-      })
-      .addCase(fetchUpdateStockItem.fulfilled, (state, action) => {
-        state.status = "loaded";
-        state.data = action.payload;
-      })
-      .addCase(fetchUpdateStockItem.rejected, (state) => {
-        state.status = "loaded";
-        state.data = null;
-      })
-
-      /* GET STOCK ITEM */
+      /* GET STOCK ITEMS */
       .addCase(fetchGetStockItems.pending, (state) => {
         state.status = "loading";
         state.data = null;

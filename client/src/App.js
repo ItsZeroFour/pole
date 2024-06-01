@@ -5,6 +5,10 @@ import { fetchAuthMe, isLoading, selectIsAuth } from "./redux/slices/auth";
 import React, { useEffect } from "react";
 import Production from "./pages/production/Production";
 import StockItems from "./pages/StockItems/StockItems";
+import UpdateStockItem from "./pages/updateStockItem/UpdateStockItem";
+import MoveStockItem from "./pages/MoveStockItem/MoveStockItem";
+import CreateShipment from "./pages/Shipment/CreateShipment";
+import ShipmentHistory from "./pages/Shipment/ShipmentHistory";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +34,19 @@ function App() {
             <React.Fragment>
               <Route path="/production" element={<Production />} />
               <Route path="/stockItems/:id" element={<StockItems />} />
+              <Route
+                path="/updateItem/:id/:stockId"
+                element={<UpdateStockItem />}
+              />
+              <Route
+                path="/move/:stockItemId/:stockId"
+                element={<MoveStockItem />}
+              />
+              <Route
+                path="/shipment/create/:stockItemId/:stockId"
+                element={<CreateShipment />}
+              />
+              <Route path="/shipment/history" element={<ShipmentHistory />} />
               <Route path="*" element={<Navigate to="/production" />} />
             </React.Fragment>
           )}
