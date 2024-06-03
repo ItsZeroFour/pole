@@ -36,8 +36,8 @@ app.use(
 );
 
 /* ROUTES */
-app.use("/user", AuthRoutes);
-app.use("/village", VillageRoutes);
+app.use("/api/user", AuthRoutes);
+app.use("/api/village", VillageRoutes);
 
 /* START FUNCTION */
 async function start() {
