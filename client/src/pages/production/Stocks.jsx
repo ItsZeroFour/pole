@@ -168,7 +168,7 @@ const Stocks = ({ currentVillageId }) => {
                               ? "Подсолнечник"
                               : "--"}
                           </h4>
-                          <h4>{count <= 0 ? "-" : count} т.</h4>
+                          <h4>{count <= 0 ? "-" : count.toFixed(2)} т.</h4>
                         </li>
                       );
                     })}
