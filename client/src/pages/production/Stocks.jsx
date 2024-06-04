@@ -57,6 +57,10 @@ const Stocks = ({ currentVillageId }) => {
             .filter(({ itemType }) => itemType.toLowerCase() === "sunflower")
             .reduce((sum, { count }) => sum + count, 0);
 
+          const drying = stockItems.data.find(
+            ({ name }) => name.toLowerCase() === "сушка"
+          );
+
           return (
             <Link
               style={{
@@ -72,28 +76,69 @@ const Stocks = ({ currentVillageId }) => {
               <h4>{name}</h4>
 
               <ul>
-                {name !== "Обработка" ? (
+                {name.toLowerCase() !== "обработка" ? (
                   <React.Fragment>
-                    <li>
-                      <h4>Пшеница:</h4>
-                      <h4>{wheatTotal <= 0 ? "-" : `${wheatTotal} т.`}</h4>
-                    </li>
-
-                    {name !== "Сушка" && (
+                    {name.toLowerCase() !== "сушка" ? (
                       <React.Fragment>
                         <li>
+                          <h4>Пшеница:</h4>
+                          <h4>
+                            {wheatTotal <= 0
+                              ? "-"
+                              : `${wheatTotal.toFixed(2)} т.`}
+                          </h4>
+                        </li>
+
+                        <li>
                           <h4>Горох: </h4>
-                          <h4>{peasTotal <= 0 ? "-" : `${peasTotal} т.`}</h4>
+                          <h4>
+                            {peasTotal <= 0
+                              ? "-"
+                              : `${peasTotal.toFixed(2)} т.`}
+                          </h4>
                         </li>
 
                         <li>
                           <h4>Подсолнечник: </h4>
 
                           <h4>
-                            {sunflowerTotal <= 0 ? "-" : `${sunflowerTotal} т.`}
+                            {sunflowerTotal <= 0
+                              ? "-"
+                              : `${sunflowerTotal.toFixed(2)} т.`}
                           </h4>
                         </li>
                       </React.Fragment>
+                    ) : (
+                      <li>
+                        <h4>
+                          {drying.items && drying.items[0]
+                            ? drying.items[0].itemType.toLowerCase() === "wheat"
+                              ? "Пшеница"
+                              : drying.items[0].itemType.toLowerCase() ===
+                                "peas"
+                              ? "Горох"
+                              : drying.items[0].itemType.toLowerCase() ===
+                                "sunflower"
+                              ? "Подсолнечник"
+                              : "--"
+                            : "--"}
+                          :
+                        </h4>
+                        <h4>
+                          {drying.items &&
+                          drying.items[0] &&
+                          drying.items[0].itemType !== undefined &&
+                          drying.items[0].itemType.toLowerCase() === "wheat"
+                            ? `${wheatTotal}`
+                            : drying.items[0].itemType.toLowerCase() === "peas"
+                            ? peasTotal
+                            : drying.items[0].itemType.toLowerCase() ===
+                              "sunflower"
+                            ? sunflowerTotal
+                            : "-"}{" "}
+                          т.
+                        </h4>
+                      </li>
                     )}
                   </React.Fragment>
                 ) : (

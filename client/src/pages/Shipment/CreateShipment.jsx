@@ -25,6 +25,12 @@ const CreateShipment = () => {
   const stock = useSelector((state) => state.stockItems.data);
   const villages = useSelector((state) => state.villages.data);
 
+  const handleClick = (event) => {
+    event.preventDefault(); // Предотвращаем стандартное поведение ссылки
+    navigate(`/updateItem/${stockItem._id}/${stock[0]._id}`, { replace: true }); // Навигация на указанную страницу
+    window.location.reload(); // Перезагрузка страницы
+  };
+
   function findObjectByStockId(objectsArray, stockId) {
     for (let obj of objectsArray) {
       for (let stock of obj.stocks) {
@@ -107,7 +113,10 @@ const CreateShipment = () => {
         {stock && stock.length !== 0 && stockItem ? (
           <React.Fragment>
             <div className={style.createshipment__head}>
-              <Link to={`/updateItem/${stockItem._id}/${stock[0]._id}`}>
+              <Link
+                to={`/updateItem/${stockItem._id}/${stock[0]._id}`}
+                onClick={handleClick}
+              >
                 <img src={arrowBack} alt="arrow" />
               </Link>
 
@@ -169,6 +178,7 @@ const CreateShipment = () => {
                   onFocus={handleFocusPrice}
                   value={price <= 0 ? 0 : price}
                 />
+                <span>руб/т</span>
               </div>
 
               <div className={style.createshipment__sum}>
@@ -179,6 +189,7 @@ const CreateShipment = () => {
                   id="totalSum"
                   value={Math.round(count * price)}
                 />
+                <span>руб</span>
               </div>
 
               <button onClick={createShipment}>Отгрузить</button>

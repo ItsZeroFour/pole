@@ -88,11 +88,15 @@ export const createStock = async (
     await newStock.save();
 
     try {
-      await Village.findByIdAndUpdate(villageId, {
-        $push: {
-          stocks: newStock._id,
+      await Village.findByIdAndUpdate(
+        villageId,
+        {
+          $push: {
+            stocks: newStock._id,
+          },
         },
-      });
+        { new: true }
+      );
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -206,11 +210,15 @@ export const createItemStock = async (
     await stock.save();
 
     try {
-      await Stock.findByIdAndUpdate(stockId, {
-        $push: {
-          items: stock._id,
+      await Stock.findByIdAndUpdate(
+        stockId,
+        {
+          $push: {
+            items: stock._id,
+          },
         },
-      });
+        { new: true }
+      );
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -528,9 +536,13 @@ export const moveStockItem = async (
       try {
         const savedNewStockItem = await newStockItem_.save();
 
-        await Stock.findByIdAndUpdate(newStockId, {
-          $push: { items: savedNewStockItem._id },
-        });
+        await Stock.findByIdAndUpdate(
+          newStockId,
+          {
+            $push: { items: savedNewStockItem._id },
+          },
+          { new: true }
+        );
 
         await ItemStock.findByIdAndDelete(newStockItemId);
 
@@ -640,6 +652,10 @@ export const createShipment = async (
             },
             { new: true }
           );
+
+          await Village.findByIdAndUpdate(villageId, {
+            $push: { shipment: shipment._id },
+          });
 
           await ItemStock.findByIdAndDelete(stockItemId);
 

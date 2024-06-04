@@ -22,12 +22,18 @@ const MoveStockItem = () => {
   const [stockIdSelect, setStockIdSelect] = useState("");
   const [stockItemIdSelected, setStockItemIdSelected] = useState("");
   const [stockItems, setStockItems] = useState([]);
-  const [itemCount, setItemCount] = useState(Number);
+  const [itemCount, setItemCount] = useState(1);
 
   const stockItem = useSelector((state) => state.stockItem.data);
   const stock = useSelector((state) => state.stockItems.data);
   const villages = useSelector((state) => state.villages.data);
   const stocksItems = useSelector((state) => state.stock.data);
+
+  const handleClick = (event) => {
+    event.preventDefault(); // Предотвращаем стандартное поведение ссылки
+    navigate(`/updateItem/${stockItem._id}/${stock[0]._id}`, { replace: true }); // Навигация на указанную страницу
+    window.location.reload(); // Перезагрузка страницы
+  };
 
   function findObjectByStockId(objectsArray, stockId) {
     for (let obj of objectsArray) {
@@ -107,6 +113,7 @@ const MoveStockItem = () => {
 
       alert("Успешно!");
       navigate(`/stockItems${stockId}`);
+      window.location.reload();
     } catch (err) {
       console.log(err);
       alert("Не удалось переместить");
@@ -120,7 +127,10 @@ const MoveStockItem = () => {
           {stock && stock.length !== 0 && stockItem ? (
             <React.Fragment>
               <div className={style.movestockitem__head}>
-                <Link to={`/updateItem/${stockItem._id}/${stock[0]._id}`}>
+                <Link
+                  to={`/updateItem/${stockItem._id}/${stock[0]._id}`}
+                  onClick={handleClick}
+                >
                   <img src={arrowBack} alt="arrow" />
                 </Link>
 

@@ -36,14 +36,6 @@ const itemPeasParamsSchema = new mongoose.Schema(
 
 const itemSunflowerParamsSchema = new mongoose.Schema(
   {
-    grainAdmixture: { type: Number, default: 0 },
-    sprouted: { type: Number, default: 0 },
-    shriveled: { type: Number, default: 0 },
-    broken: { type: Number, default: 0 },
-    damaged: { type: Number, default: 0 },
-    cultivatedPlants: { type: Number, default: 0 },
-    green: { type: Number, default: 0 },
-    weed: { type: Number, default: 0 },
     impurity: { type: Number, default: 0 },
     oilImpurity: { type: Number, default: 0 },
   },

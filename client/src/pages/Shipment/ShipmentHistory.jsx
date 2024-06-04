@@ -37,15 +37,17 @@ const ShipmentHistory = () => {
     shipmentHistory && shipmentHistory.length !== 0 ? shipmentHistory : [];
 
   const endOffset = itemOffset + itemsPerPage;
-  const currentItems = items.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+  const currentItems = items
+    .filter((item) => item !== null)
+    .slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(
+    items.filter((item) => item !== null).length / itemsPerPage
+  );
 
   const handlePageClick = (event) => {
     const newOffset = event.selected * itemsPerPage;
     setItemOffset(newOffset);
   };
-
-  console.log(currentItems);
 
   return (
     <section className={style.shipmenthistory}>
@@ -93,23 +95,37 @@ const ShipmentHistory = () => {
                     </tr>
                     {currentItems
                       .filter((elem) => elem !== null)
+                      .reverse()
                       .map((item) => (
                         <tr key={item._id}>
                           <td>
+                            <p>дата</p>
                             <Moment format="DD.MM.YY">{item.createdAt}</Moment>
                           </td>
 
-                          <td>{item.stock.name}</td>
+                          <td>
+                            <p>склад</p> {item.stock.name}
+                          </td>
 
-                          <td>{item.agent}</td>
+                          <td>
+                            <p>контрагент</p> {item.agent}
+                          </td>
 
-                          <td>{item.culture}</td>
+                          <td>
+                            <p>культура</p> {item.culture}
+                          </td>
 
-                          <td>{item.count}</td>
+                          <td>
+                            <p>количество, т</p> {item.count}
+                          </td>
 
-                          <td>{item.price}</td>
+                          <td>
+                            <p>цена/т, руб</p> {item.price}
+                          </td>
 
-                          <td>{item.totalPrice}</td>
+                          <td>
+                            <p>сумма, руб</p> {item.totalPrice}
+                          </td>
                         </tr>
                       ))}
                   </table>

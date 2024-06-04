@@ -59,7 +59,7 @@ body {
     input {
       border: 1px solid var(--color-gray);
       padding: 5px;
-      width: 80px;
+      width: 150px;
     }
 
     p {
@@ -83,7 +83,7 @@ body {
       }
     }
 
-    &:not(:nth-child(3)) {
+    &:not(:nth-child(3), :nth-child(4), :nth-child(5)) {
       @media (max-width: 600px) {
         flex-direction: column;
         justify-content: start;
@@ -93,6 +93,16 @@ body {
     }
 
     &:nth-child(3) {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    &:nth-child(4) {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    &:nth-child(5) {
       flex-wrap: wrap;
       gap: 20px;
     }
@@ -147,13 +157,21 @@ table {
 }
 
 @media screen and (max-width: 600px) {
-  table,
   thead,
   tbody,
-  th,
   td,
   tr {
     display: block;
+  }
+
+  table {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  th {
+    display: none;
   }
 
   thead tr {
@@ -162,6 +180,8 @@ table {
 
   tr {
     margin-bottom: 10px;
+    border: 10px solid #000;
+    background: #eaeaea;
   }
 
   td {

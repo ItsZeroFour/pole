@@ -2,6 +2,12 @@ body {
   overflow-y: auto !important;
 }
 
+.updatestockitem__name__select {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .updatestockitem__top {
   display: flex;
   justify-content: space-between;
@@ -70,7 +76,8 @@ body {
 
       gap: 20px;
 
-      input {
+      input,
+      select {
         background: #d9d9d9;
         width: 100px;
         padding: 10px;

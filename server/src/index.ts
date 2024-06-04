@@ -12,8 +12,13 @@ dotenv.config({ path: "./.env" });
 const app = express();
 
 const corsOptions = {
-  origin: 'http://dev2.uer-ural.ru',
-  optionsSuccessStatus: 200,
+  origin: "http://dev2.uer-ural.ru/",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  allowedHeaders:
+    "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization",
+  exposedHeaders: "Content-Length,Content-Range",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 };
 
 /* CONSTANTS */
@@ -36,8 +41,8 @@ app.use(
 );
 
 /* ROUTES */
-app.use("/api/user", AuthRoutes);
-app.use("/api/village", VillageRoutes);
+app.use("/user", AuthRoutes);
+app.use("/village", VillageRoutes);
 
 /* START FUNCTION */
 async function start() {

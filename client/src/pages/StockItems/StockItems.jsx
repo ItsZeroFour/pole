@@ -50,37 +50,35 @@ const StockItems = () => {
           </div>
 
           <ul className={style.stockitems__list}>
-            {currentItems.map(
-              ({ _id, itemType, count, humidity, id }) => (
-                <li key={_id}>
-                  <Link to={`/updateItem/${_id}/${stockItems.data[0]._id}`}>
-                    <div className={style.stockitems__item__head}>
-                      <p>{id}</p>
-                      <p>
-                        {itemType.toLowerCase() === "wheat"
-                          ? "Пшеница"
-                          : itemType.toLowerCase() === "peas"
-                          ? "Горох"
-                          : itemType.toLowerCase() === "sunflower"
-                          ? "Подсолнечник"
-                          : "---"}
-                      </p>
-                    </div>
-                    <ul>
-                      <li>
-                        <p>Кол-во</p>
-                        <p>{count > 0 ? count : "-"}т.</p>
-                      </li>
+            {currentItems.map(({ _id, itemType, count, humidity, id }) => (
+              <li key={_id}>
+                <Link to={`/updateItem/${_id}/${stockItems.data[0]._id}`}>
+                  <div className={style.stockitems__item__head}>
+                    <p>{id}</p>
+                    <p>
+                      {itemType.toLowerCase() === "wheat"
+                        ? "Пшеница"
+                        : itemType.toLowerCase() === "peas"
+                        ? "Горох"
+                        : itemType.toLowerCase() === "sunflower"
+                        ? "Подсолнечник"
+                        : "---"}
+                    </p>
+                  </div>
+                  <ul>
+                    <li>
+                      <p>Кол-во</p>
+                      <p>{count > 0 ? count.toFixed(2) : "-"}т.</p>
+                    </li>
 
-                      <li>
-                        <p>Влажность</p>
-                        <p>{humidity > 0 ? humidity : "-"} %</p>
-                      </li>
-                    </ul>
-                  </Link>
-                </li>
-              )
-            )}
+                    <li>
+                      <p>Влажность</p>
+                      <p>{humidity > 0 ? humidity.toFixed(2) : "-"} %</p>
+                    </li>
+                  </ul>
+                </Link>
+              </li>
+            ))}
           </ul>
 
           <ReactPaginate

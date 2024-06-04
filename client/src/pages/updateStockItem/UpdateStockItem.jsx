@@ -19,7 +19,7 @@ const UpdateStockItem = () => {
   const [itemType, setItemType] = useState("");
   const [newItem, setNewItem] = useState(false);
   const [count, setCount] = useState(0);
-  const [classItem, setClassItem] = useState(0);
+  const [classItem, setClassItem] = useState(3);
   const [gluten, setGluten] = useState(0);
   const [grainAdmixture, setGrainAdmixture] = useState(0);
   const [impurity, setImpurity] = useState(0);
@@ -222,7 +222,7 @@ const UpdateStockItem = () => {
           humidity,
           description,
           wheatParams: {
-            class: classItem,
+            class: classItem === 0 ? 3 : classItem,
             gluten,
             grainAdmixture,
             impurity,
@@ -280,12 +280,20 @@ const UpdateStockItem = () => {
 
       alert("Ячейка успешно обновлена!");
       navigate(`/stockItems/${stockId}`);
+      window.location.reload();
     } catch (err) {
       alert("500 Не удалось обновить ячейку");
     }
   };
 
-  console.log(itemType);
+  const handleCountChange = (event) => {
+    const value = Math.min(Number(event.target.value), 100);
+    setCount(value);
+  };
+
+  useEffect(() => {
+    console.log(itemType);
+  }, [itemType]);
 
   return (
     <section className={style.updatestockitem}>
@@ -308,12 +316,18 @@ const UpdateStockItem = () => {
             <div className={style.updatestockitem__panel}>
               <div className={style.updatestockitem__main}>
                 <h2>
-                  Наименование:{" "}
-                  {itemType.toLowerCase() === "wheat"
-                    ? "Пшеница"
-                    : itemType.toLowerCase() === "peas"
-                    ? "Горох"
-                    : "Подсолнечник"}
+                  {itemType !== "" && (
+                    <>
+                      Наименование:{" "}
+                      {itemType.toLowerCase() === "wheat"
+                        ? "Пшеница"
+                        : itemType.toLowerCase() === "peas"
+                        ? "Горох"
+                        : itemType.toLowerCase() === "sunflower"
+                        ? "Подсолнечник"
+                        : "Пусто"}
+                    </>
+                  )}
                 </h2>
                 {itemType.toLowerCase() === "wheat" ? (
                   <div>
@@ -321,20 +335,26 @@ const UpdateStockItem = () => {
                       <li>
                         <label htmlFor="">Колличество*</label>
                         <input
+                          id="count"
                           type="number"
                           value={count}
-                          onChange={(event) => setCount(event.target.value)}
+                          onChange={handleCountChange}
                         />
                         <p>т.</p>
                       </li>
 
                       <li>
                         <label htmlFor="">Класс</label>
-                        <input
-                          type="number"
+                        <select
                           value={classItem}
-                          onChange={(event) => setClassItem(event.target.value)}
-                        />
+                          onChange={(event) =>
+                            setClassItem(parseInt(event.target.value))
+                          }
+                        >
+                          <option value={3}>3</option>
+                          <option value={4}>4</option>
+                          <option value={5}>5</option>
+                        </select>
                       </li>
 
                       <li>
@@ -366,6 +386,7 @@ const UpdateStockItem = () => {
                             setShriveled(event.target.damaged)
                           }
                         />
+                        <p>%</p>
                       </li>
 
                       <li>
@@ -419,6 +440,7 @@ const UpdateStockItem = () => {
                           value={damaged}
                           onChange={(event) => setDamaged(event.target.damaged)}
                         />
+                        <p>%</p>
                       </li>
 
                       <li>
@@ -450,6 +472,7 @@ const UpdateStockItem = () => {
                           value={impurity}
                           onChange={(event) => setImpurity(event.target.value)}
                         />
+                        <p>%</p>
                       </li>
 
                       <li>
@@ -607,82 +630,6 @@ const UpdateStockItem = () => {
                       </li>
 
                       <li>
-                        <label htmlFor="">зерновая примесь</label>
-                        <input
-                          type="number"
-                          value={grainAdmixture}
-                          onChange={(event) =>
-                            setGrainAdmixture(event.target.value)
-                          }
-                        />
-                        <p>%</p>
-                      </li>
-
-                      <li>
-                        <label htmlFor="">Проросшие</label>
-                        <input
-                          type="number"
-                          value={sprouted}
-                          onChange={(event) => setSprouted(event.target.value)}
-                        />
-                        <p>%</p>
-                      </li>
-
-                      <li>
-                        <label htmlFor="">щуплые</label>
-                        <input
-                          type="number"
-                          value={weed}
-                          onChange={(event) => setWeed(event.target.value)}
-                        />
-                        <p>%</p>
-                      </li>
-                    </ul>
-
-                    <ul>
-                      <li>
-                        <label htmlFor="">битые</label>
-                        <input
-                          type="number"
-                          value={broken}
-                          onChange={(event) => setBroken(event.target.value)}
-                        />
-                        <p>%</p>
-                      </li>
-
-                      <li>
-                        <label htmlFor="">поврежденные</label>
-                        <input
-                          type="number"
-                          value={damaged}
-                          onChange={(event) => setDamaged(event.target.value)}
-                        />
-                        <p>%</p>
-                      </li>
-
-                      <li>
-                        <label htmlFor="">культурные растения</label>
-                        <input
-                          type="number"
-                          value={cultivatedPlants}
-                          onChange={(event) =>
-                            setCultivatedPlants(event.target.value)
-                          }
-                        />
-                        <p>%</p>
-                      </li>
-
-                      <li>
-                        <label htmlFor="">зеленые</label>
-                        <input
-                          type="number"
-                          value={green}
-                          onChange={(event) => setGreen(event.target.value)}
-                        />
-                        <p>%</p>
-                      </li>
-
-                      <li>
                         <label htmlFor="">сорная примесь</label>
                         <input
                           type="number"
@@ -707,24 +654,29 @@ const UpdateStockItem = () => {
                   </div>
                 ) : (
                   <div className={style.updatestockitem__new}>
-                    <select
-                      onChange={(event) => setItemType(event.target.value)}
-                    >
-                      <option value="">Выбрать</option>
-                      <option value="Wheat">Пшеница</option>
-                      <option value="Peas">Горох</option>
-                      <option value="sunflower">Подсолнечник</option>
-                    </select>
+                    <div className={style.updatestockitem__name__select}>
+                      <h2>Наименование: </h2>
+                      <select
+                        onChange={(event) => setItemType(event.target.value)}
+                      >
+                        <option value="">Выбрать</option>
+                        <option value="Wheat">Пшеница</option>
+                        <option value="Peas">Горох</option>
+                        <option value="sunflower">Подсолнечник</option>
+                      </select>
+                    </div>
 
                     {itemType === "Wheat" ? (
                       <div>
                         <ul>
                           <li>
-                            <label htmlFor="">Колличество*</label>
+                            <label htmlFor="count">Колличество*</label>
                             <input
+                              id="count"
                               type="number"
                               value={count}
-                              onChange={(event) => setCount(event.target.value)}
+                              onChange={handleCountChange}
+                              max={100}
                             />
                             <p>т.</p>
                           </li>
@@ -1034,87 +986,6 @@ const UpdateStockItem = () => {
                           </li>
 
                           <li>
-                            <label htmlFor="">зерновая примесь</label>
-                            <input
-                              type="number"
-                              value={grainAdmixture}
-                              onChange={(event) =>
-                                setGrainAdmixture(event.target.value)
-                              }
-                            />
-                            <p>%</p>
-                          </li>
-
-                          <li>
-                            <label htmlFor="">Проросшие</label>
-                            <input
-                              type="number"
-                              value={sprouted}
-                              onChange={(event) =>
-                                setSprouted(event.target.value)
-                              }
-                            />
-                            <p>%</p>
-                          </li>
-
-                          <li>
-                            <label htmlFor="">щуплые</label>
-                            <input
-                              type="number"
-                              value={weed}
-                              onChange={(event) => setWeed(event.target.value)}
-                            />
-                            <p>%</p>
-                          </li>
-                        </ul>
-
-                        <ul>
-                          <li>
-                            <label htmlFor="">битые</label>
-                            <input
-                              type="number"
-                              value={broken}
-                              onChange={(event) =>
-                                setBroken(event.target.value)
-                              }
-                            />
-                            <p>%</p>
-                          </li>
-
-                          <li>
-                            <label htmlFor="">поврежденные</label>
-                            <input
-                              type="number"
-                              value={damaged}
-                              onChange={(event) =>
-                                setDamaged(event.target.value)
-                              }
-                            />
-                          </li>
-
-                          <li>
-                            <label htmlFor="">культурные растения</label>
-                            <input
-                              type="number"
-                              value={cultivatedPlants}
-                              onChange={(event) =>
-                                setCultivatedPlants(event.target.value)
-                              }
-                            />
-                            <p>%</p>
-                          </li>
-
-                          <li>
-                            <label htmlFor="">зеленые</label>
-                            <input
-                              type="number"
-                              value={green}
-                              onChange={(event) => setGreen(event.target.value)}
-                            />
-                            <p>%</p>
-                          </li>
-
-                          <li>
                             <label htmlFor="">сорная примесь</label>
                             <input
                               type="number"
@@ -1140,7 +1011,7 @@ const UpdateStockItem = () => {
                       </div>
                     ) : (
                       <div>
-                        <h1>Пожалуйста, выбирите элемент</h1>
+                        <h1>Пожалуйста, выберите элемент</h1>
                       </div>
                     )}
                   </div>
@@ -1160,17 +1031,21 @@ const UpdateStockItem = () => {
               )}
             </div>
 
-            <p className={style.updatestockitem__note}>
-              * добавляя количество актуализируйте остальные параметры
-            </p>
+            {itemType !== "" && (
+              <p className={style.updatestockitem__note}>
+                * добавляя количество актуализируйте остальные параметры
+              </p>
+            )}
 
-            <div className={style.updatestockitem__description}>
-              <label htmlFor="">Примечание</label>
-              <textarea
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-              ></textarea>
-            </div>
+            {itemType !== "" && (
+              <div className={style.updatestockitem__description}>
+                <label htmlFor="">Примечание</label>
+                <textarea
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                ></textarea>
+              </div>
+            )}
 
             <div className={style.updatestockitem__button}>
               <button onClick={updateStockItem}>Сохранить</button>
