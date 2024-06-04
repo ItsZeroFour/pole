@@ -17,6 +17,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchAuthMe());
+    console.log("Client has been started");
   }, [dispatch]);
 
   return (
