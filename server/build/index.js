@@ -10,7 +10,7 @@ import VillageRoutes from "./routes/village.js";
 dotenv.config({ path: "./.env" });
 const app = express();
 const corsOptions = {
-    origin: 'http://ruspole.uer-ural.ru',
+    origin: 'https://ruspole.uer-ural.ru',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization',
     exposedHeaders: 'Content-Length,Content-Range',
