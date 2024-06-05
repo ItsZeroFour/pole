@@ -139,7 +139,7 @@ const UpdateStockItem = () => {
       }
 
       if (newItem && itemType.toLowerCase() === "wheat") {
-        await axios.patch(`/village/updateStockItem/${stockId}/${id}`, {
+        const data = await axios.patch(`/village/updateStockItem/${stockId}/${id}`, {
           itemType: "Wheat",
           id: stockItem.id,
           count,
@@ -163,6 +163,28 @@ const UpdateStockItem = () => {
         });
 
         alert("Ячейка успешно обновлена!");
+        console.log({
+          itemType: "Wheat",
+          id: stockItem.id,
+          count,
+          humidity,
+          description,
+          wheatParams: {
+            class: classItem,
+            gluten,
+            grainAdmixture,
+            impurity,
+            IDK,
+            nature,
+            broken,
+            damaged,
+            cultivatedPlants,
+            green,
+            weed,
+            sprouted,
+            shriveled,
+          },
+        }, data)
         return navigate(`/stockItems/${stockId}`);
       }
 
@@ -384,7 +406,7 @@ const UpdateStockItem = () => {
                           type="number"
                           value={shriveled}
                           onChange={(event) =>
-                            setShriveled(event.target.damaged)
+                            setShriveled(event.target.value)
                           }
                         />
                         <p>%</p>
@@ -429,7 +451,7 @@ const UpdateStockItem = () => {
                         <input
                           type="number"
                           value={broken}
-                          onChange={(event) => setBroken(event.target.broken)}
+                          onChange={(event) => setBroken(event.target.value)}
                         />
                         <p>%</p>
                       </li>
@@ -439,7 +461,7 @@ const UpdateStockItem = () => {
                         <input
                           type="number"
                           value={damaged}
-                          onChange={(event) => setDamaged(event.target.damaged)}
+                          onChange={(event) => setDamaged(event.target.value)}
                         />
                         <p>%</p>
                       </li>
@@ -770,7 +792,7 @@ const UpdateStockItem = () => {
                               type="number"
                               value={broken}
                               onChange={(event) =>
-                                setBroken(event.target.broken)
+                                setBroken(event.target.value)
                               }
                             />
                             <p>%</p>
@@ -782,7 +804,7 @@ const UpdateStockItem = () => {
                               type="number"
                               value={damaged}
                               onChange={(event) =>
-                                setDamaged(event.target.damaged)
+                                setDamaged(event.target.value)
                               }
                             />
                           </li>
@@ -851,7 +873,9 @@ const UpdateStockItem = () => {
                             <input
                               type="number"
                               value={count}
-                              onChange={(event) => setCount(event.target.value)}
+                               onChange={handleCountChange}
+                              max={100}
+
                             />
                             <p>т.</p>
                           </li>
@@ -969,7 +993,9 @@ const UpdateStockItem = () => {
                             <input
                               type="number"
                               value={count}
-                              onChange={(event) => setCount(event.target.value)}
+                               onChange={handleCountChange}
+                              max={100}
+
                             />
                             <p>т.</p>
                           </li>

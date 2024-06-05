@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetStockItems } from "../../redux/slices/stockItems";
 import arrowImage from "../../assets/arrow.svg";
@@ -10,6 +10,7 @@ import ReactPaginate from "react-paginate";
 const StockItems = () => {
   const [itemOffset, setItemOffset] = useState(0);
 
+  const navigate = useNavigate()
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -35,6 +36,13 @@ const StockItems = () => {
     setItemOffset(newOffset);
   };
 
+  const handleClick = (_id, event) => {
+    event.preventDefault(); // Предотвращаем стандартное поведение ссылки
+    navigate(`/updateItem/${_id}/${stockItems.data[0]._id}`, { replace: true }); // Навигация на указанную страницу
+    window.location.reload(); // Перезагрузка страницы
+  };
+
+
   return (
     <section className={style.stockitems}>
       {stockItems.data && stockItems.data.length > 0 ? (
@@ -52,7 +60,7 @@ const StockItems = () => {
           <ul className={style.stockitems__list}>
             {currentItems.map(({ _id, itemType, count, humidity, id }) => (
               <li key={_id}>
-                <Link to={`/updateItem/${_id}/${stockItems.data[0]._id}`}>
+                <Link onClick={handleClick} to={`/updateItem/${_id}/${stockItems.data[0]._id}`}>
                   <div className={style.stockitems__item__head}>
                     <p>{id}</p>
                     <p>
