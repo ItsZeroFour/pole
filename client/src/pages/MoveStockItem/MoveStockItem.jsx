@@ -93,7 +93,7 @@ const MoveStockItem = () => {
     fetchGetStockItems();
   }, [stockIdSelect]);
 
-  const moveStockItem = () => {
+  const moveStockItem = async () => {
     try {
       const { _id, ...stockItemParams } = stockItem;
 
@@ -105,15 +105,28 @@ const MoveStockItem = () => {
         currentStockId: stockId,
         newStockItemId: stockItemIdSelected,
         newStockId: stockIdSelect,
-        itemCount,
+        itemCount: itemCount === 0 && itemCount === 1 ? 1 : itemCount,
         ...stockItemParams,
       };
 
-      dispatch(fetchMove({ id: stockItemId, itemParams }));
+      // Дождаться завершения запроса
+      const resultAction = await dispatch(
+        fetchMove({ id: stockItemId, itemParams })
+      );
 
-      alert("Успешно!");
-      navigate(`/stockItems${stockId}`);
-      window.location.reload();
+      if (fetchMove.fulfilled.match(resultAction)) {
+        alert("Успешно!");
+        navigate(
+          `/updateItem/${resultAction.payload.id}/${resultAction.payload.stockId}`
+        );
+        window.location.reload();
+      } else {
+        if (resultAction.payload) {
+          alert(`Не удалось переместить: ${resultAction.payload.message}`);
+        } else {
+          alert("Не удалось переместить: неизвестная ошибка");
+        }
+      }
     } catch (err) {
       console.log(err);
       alert("Не удалось переместить");

@@ -488,7 +488,9 @@ export const moveStockItem = async (
 
           await ItemStock.findByIdAndDelete(currentStockItemId);
 
-          res.status(200).json({ message: "Успешно!" });
+          res
+            .status(200)
+            .json({ id: savedNewStockItem._id, stockId: newStockId });
           return;
         } catch (err) {
           console.log(err);
@@ -546,7 +548,9 @@ export const moveStockItem = async (
 
         await ItemStock.findByIdAndDelete(newStockItemId);
 
-        res.status(200).json({ message: "Успешно!" });
+        res
+          .status(200)
+          .json({ id: savedNewStockItem._id, stockId: newStockId });
         return;
       } catch (err) {
         console.log(err);

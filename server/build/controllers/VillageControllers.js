@@ -67,7 +67,7 @@ export const createStock = async (req, res) => {
                 $push: {
                     stocks: newStock._id,
                 },
-            });
+            }, { new: true });
         }
         catch (err) {
             console.log(err);
@@ -171,7 +171,7 @@ export const createItemStock = async (req, res) => {
                 $push: {
                     items: stock._id,
                 },
-            });
+            }, { new: true });
         }
         catch (err) {
             console.log(err);
@@ -381,7 +381,9 @@ export const moveStockItem = async (req, res) => {
                     });
                     await ItemStock.findByIdAndDelete(newStockItemId);
                     await ItemStock.findByIdAndDelete(currentStockItemId);
-                    res.status(200).json({ message: "Успешно!" });
+                    res
+                        .status(200)
+                        .json({ id: savedNewStockItem._id, stockId: newStockId });
                     return;
                 }
                 catch (err) {
@@ -423,9 +425,11 @@ export const moveStockItem = async (req, res) => {
                 const savedNewStockItem = await newStockItem_.save();
                 await Stock.findByIdAndUpdate(newStockId, {
                     $push: { items: savedNewStockItem._id },
-                });
+                }, { new: true });
                 await ItemStock.findByIdAndDelete(newStockItemId);
-                res.status(200).json({ message: "Успешно!" });
+                res
+                    .status(200)
+                    .json({ id: savedNewStockItem._id, stockId: newStockId });
                 return;
             }
             catch (err) {
@@ -507,6 +511,9 @@ export const createShipment = async (req, res) => {
                     await Stock.findByIdAndUpdate(stockId, {
                         $push: { items: newEmptyItem._id },
                     }, { new: true });
+                    await Village.findByIdAndUpdate(villageId, {
+                        $push: { shipment: shipment._id },
+                    });
                     await ItemStock.findByIdAndDelete(stockItemId);
                     res.status(200).json({ message: "Успешно!" });
                     return;

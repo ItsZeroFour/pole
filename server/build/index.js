@@ -7,17 +7,16 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import AuthRoutes from "./routes/auth.js";
 import VillageRoutes from "./routes/village.js";
-import https from "https";
-import fs from "fs";
 dotenv.config({ path: "./.env" });
 const app = express();
 const corsOptions = {
-    origin: 'https://ruspole.uer-ural.ru',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization',
-    exposedHeaders: 'Content-Length,Content-Range',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
+  origin: "https://ruspole.uer-ural.ru/",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  allowedHeaders:
+    "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization",
+  exposedHeaders: "Content-Length,Content-Range",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 };
 const privateKey = fs.readFileSync("./certificate/ruspole_uer-ural.ru.key");
 const certificate = fs.readFileSync("./certificate/ruspole_uer-ural.ru.crt");

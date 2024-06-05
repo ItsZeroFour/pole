@@ -104,7 +104,7 @@ const CreateShipment = () => {
     );
 
     alert("Успешно!");
-    navigate(`/stockItems${stockId}`);
+    navigate(`/shipment/history`);
   };
 
   return (
