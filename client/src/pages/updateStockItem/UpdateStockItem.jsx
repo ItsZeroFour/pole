@@ -131,6 +131,7 @@ const UpdateStockItem = () => {
         await axios.patch(`/village/updateStockItem/${stockId}/${id}`, {
           itemType: "None",
           id: stockItem.id,
+          description,
         });
 
         alert("Ячейка успешно обновлена!");
@@ -1031,21 +1032,17 @@ const UpdateStockItem = () => {
               )}
             </div>
 
-            {itemType !== "" && (
-              <p className={style.updatestockitem__note}>
-                * добавляя количество актуализируйте остальные параметры
-              </p>
-            )}
+            <p className={style.updatestockitem__note}>
+              * добавляя количество актуализируйте остальные параметры
+            </p>
 
-            {itemType !== "" && (
-              <div className={style.updatestockitem__description}>
-                <label htmlFor="">Примечание</label>
-                <textarea
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                ></textarea>
-              </div>
-            )}
+            <div className={style.updatestockitem__description}>
+              <label htmlFor="">Примечание</label>
+              <textarea
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+              ></textarea>
+            </div>
 
             <div className={style.updatestockitem__button}>
               <button onClick={updateStockItem}>Сохранить</button>

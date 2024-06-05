@@ -84,7 +84,7 @@ const CreateShipment = () => {
       return alert("Пожалуйста, заполните все поля");
     }
 
-    dispatch(
+    const resultAction = await dispatch(
       fetchCreateShipment({
         stockItemId: stockItem._id,
         stockId: stock[0]._id,
@@ -103,8 +103,17 @@ const CreateShipment = () => {
       })
     );
 
-    alert("Успешно!");
-    navigate(`/stockItems${stockId}`);
+    if (fetchCreateShipment.fulfilled.match(resultAction)) {
+      alert("Успешно!");
+      navigate(`/shipment/history`);
+      window.location.reload();
+    } else {
+      if (resultAction.payload) {
+        alert(`Не удалось переместить: ${resultAction.payload.message}`);
+      } else {
+        alert("Не удалось переместить: неизвестная ошибка");
+      }
+    }
   };
 
   return (

@@ -7,8 +7,8 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import AuthRoutes from "./routes/auth.js";
 import VillageRoutes from "./routes/village.js";
-import https from "https";
-import fs from "fs";
+// import https from "https";
+// import fs from "fs";
 
 dotenv.config({ path: "./.env" });
 const app = express();
@@ -23,16 +23,16 @@ const app = express();
 //   optionsSuccessStatus: 204,
 // };
 
-const privateKey = fs.readFileSync("./certificate/ruspole_uer-ural.ru.key");
-const certificate = fs.readFileSync("./certificate/ruspole_uer-ural.ru.crt");
+// const privateKey = fs.readFileSync("./certificate/ruspole_uer-ural.ru.key");
+// const certificate = fs.readFileSync("./certificate/ruspole_uer-ural.ru.crt");
 
-const httpsServer = https.createServer(
-  {
-    key: privateKey,
-    cert: certificate,
-  },
-  app
-);
+// const httpsServer = https.createServer(
+//   {
+//     key: privateKey,
+//     cert: certificate,
+//   },
+//   app
+// );
 
 /* CONSTANTS */
 const PORT = process.env.PORT || 5000;
@@ -65,7 +65,7 @@ async function start() {
       .then(() => console.log("Mongo db connection successfully"))
       .catch((err) => console.log(err));
 
-    httpsServer.listen(PORT, (err?: Error): void => {
+    app.listen(PORT, (err?: Error): void => {
       if (err) return console.log("Приложение аварийно завершилось: ", err);
       console.log(`Сервер успешно запущен! Порт: ${PORT}`);
     });
