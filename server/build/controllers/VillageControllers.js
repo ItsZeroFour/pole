@@ -334,7 +334,7 @@ export const moveStockItem = async (req, res) => {
             });
             return;
         }
-        if (stockItem.count < itemCount) {
+        if (stockItem.count < itemCount - 1) {
             res.status(401).json({
                 message: "Значение не может быть больше текущего количества",
             });

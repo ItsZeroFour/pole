@@ -43,11 +43,27 @@ const CreateShipment = () => {
   }
 
   const handleChange = (event) => {
-    const value = event.target.value;
-    setCount(value ? parseInt(value) : 0);
-  };
+  const value = event.target.value;
+  // Регулярное выражение для проверки дробного числа
+  
+  const floatRegex = /^-?\d*(\.\d*)?$/;
 
-  const handleFocus = (event) => {
+  // Проверяем, соответствует ли введенное значение регулярному выражению
+  if (floatRegex.test(value)) {
+    // Не преобразовываем значение в число сразу
+    setCount(value);
+  }
+};
+
+const handleBlur = () => {
+  if (count < 1) {
+    setCount(1);
+  } else if (count > stockItem.count) {
+    setCount(stockItem.count);
+  }
+};  
+
+const handleFocus = (event) => {
     if (count <= 1) {
       event.target.select();
     }
@@ -167,8 +183,9 @@ const CreateShipment = () => {
                   id="number"
                   onChange={handleChange}
                   onFocus={handleFocus}
+                  onBlur={handleBlur}
                   value={
-                    count <= 0
+ 			count <= 0
                       ? 1
                       : count > stockItem.count
                       ? stockItem.count

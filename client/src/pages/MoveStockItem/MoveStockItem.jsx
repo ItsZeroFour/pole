@@ -47,9 +47,25 @@ const MoveStockItem = () => {
   }
 
   const handleChange = (event) => {
-    const value = event.target.value;
-    setItemCount(value ? parseInt(value) : 0);
-  };
+  const value = event.target.value;
+   
+  // Регулярное выражение для проверки дробного числа
+  const floatRegex = /^-?\d*(\.\d*)?$/;
+
+  // Проверяем, соответствует ли введенное значение регулярному выражению
+  if (floatRegex.test(value)) {
+    // Не преобразовываем значение в число сразу
+    setItemCount(value);
+  }
+};
+
+  const handleBlur = () => {
+    if (itemCount < 1) {
+      setItemCount(1);
+    } else if (itemCount > stockItem.count) {
+      setItemCount(stockItem.count);
+    }
+  };  
 
   const handleFocus = (event) => {
     if (itemCount <= 1) {
@@ -132,6 +148,10 @@ const MoveStockItem = () => {
       alert("Не удалось переместить");
     }
   };
+
+  useEffect(() => {
+    console.log(itemCount)
+  }, [itemCount])
 
   return (
     <section className={style.movestockitem}>
@@ -218,16 +238,17 @@ const MoveStockItem = () => {
                   <input
                     type="number"
                     id="number"
-                    onChange={handleChange}
+		    onChange={handleChange}
                     onFocus={handleFocus}
+                    onBlur={handleBlur}
                     value={
-                      itemCount <= 0
+			itemCount <= 0
                         ? 1
                         : itemCount > stockItem.count
                         ? stockItem.count
                         : itemCount
                     }
-                  />
+                />
                   <p>т.</p>
 
                   <span>Доступно {stockItem.count} т.</span>

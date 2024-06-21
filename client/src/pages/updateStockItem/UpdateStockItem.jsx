@@ -163,28 +163,6 @@ const UpdateStockItem = () => {
         });
 
         alert("Ячейка успешно обновлена!");
-        console.log({
-          itemType: "Wheat",
-          id: stockItem.id,
-          count,
-          humidity,
-          description,
-          wheatParams: {
-            class: classItem,
-            gluten,
-            grainAdmixture,
-            impurity,
-            IDK,
-            nature,
-            broken,
-            damaged,
-            cultivatedPlants,
-            green,
-            weed,
-            sprouted,
-            shriveled,
-          },
-        }, data)
         return navigate(`/stockItems/${stockId}`);
       }
 
@@ -315,8 +293,8 @@ const UpdateStockItem = () => {
   };
 
   useEffect(() => {
-    console.log(itemType);
-  }, [itemType]);
+    console.log(count);
+  }, [count]);
 
   return (
     <section className={style.updatestockitem}>
@@ -362,6 +340,7 @@ const UpdateStockItem = () => {
                           type="number"
                           value={count}
                           onChange={handleCountChange}
+			  max={100}
                         />
                         <p>т.</p>
                       </li>
@@ -526,8 +505,9 @@ const UpdateStockItem = () => {
                         <label htmlFor="">Количество*</label>
                         <input
                           type="number"
+			  onChange={handleCountChange}
+                          max={100}
                           value={count}
-                          onChange={(event) => setCount(event.target.value)}
                         />
                         <p>т.</p>
                       </li>
@@ -637,7 +617,8 @@ const UpdateStockItem = () => {
                         <input
                           type="number"
                           value={count}
-                          onChange={(event) => setCount(event.target.value)}
+                          onChange={handleCountChange}
+                          max={100}
                         />
                         <p>т.</p>
                       </li>
